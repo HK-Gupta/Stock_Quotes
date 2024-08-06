@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'custom_divider.dart';
 
 class DetailedContainer extends StatelessWidget {
-  const DetailedContainer({super.key});
+  final double currentPrice;
+  final String highestPrice;
+  final String lowestPrice;
+  const DetailedContainer({super.key, required this.currentPrice, required this.highestPrice, required this.lowestPrice});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +24,7 @@ class DetailedContainer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text("Current Price: "),
-              Text("₹ 100.65")
+              Text(currentPrice.toString())
             ],
           ),
           const SizedBox(height: 2,),
@@ -31,7 +34,7 @@ class DetailedContainer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text("Highest Price: "),
-              Text("₹ 100.65")
+              Text(highestPrice)
             ],
           ),
           const SizedBox(height: 2,),
@@ -41,7 +44,7 @@ class DetailedContainer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text("Low Price: "),
-              Text("₹ 100.65")
+              Text(lowestPrice)
             ],
           ),
           const SizedBox(height: 2,),

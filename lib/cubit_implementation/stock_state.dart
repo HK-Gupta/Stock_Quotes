@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
+import '../models/monthly_details.dart';
 import '../models/stocks.dart';
 
 
@@ -30,4 +31,13 @@ class StockError extends StockState {
 
   @override
   List<Object> get props => [message];
+}
+
+class MonthlyDetailsLoaded extends StockState {
+  final MonthlyDetailedModel monthlyDetails;
+
+  MonthlyDetailsLoaded(this.monthlyDetails);
+
+  @override
+  List<Object> get props => [monthlyDetails];
 }

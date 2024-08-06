@@ -26,16 +26,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Stock Quotes',
-      debugShowCheckedModeBanner: false,
-      theme: darkTheme,
-      home: BlocProvider(
-        create: (context) => StockCubit(StockRepository()),
-          child: const BottomNavigation()
+    return BlocProvider(
+      create: (context) => StockCubit(StockRepository()),
+      child: MaterialApp(
+        title: 'Stock Quotes',
+        debugShowCheckedModeBanner: false,
+        theme: darkTheme,
+        home: const BottomNavigation(),
+        // home: const LoginScreen(),
       ),
-      // home: const DetailsPage(),
-      // home: const LoginScreen(),
     );
   }
 }

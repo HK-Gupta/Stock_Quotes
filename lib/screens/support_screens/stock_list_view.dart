@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stock_quote_app/screens/pages/details_page.dart';
-
 import '../../cubit_implementation/stock_cubit.dart';
 import '../../cubit_implementation/stock_state.dart';
 import '../../models/stocks.dart';
@@ -29,12 +28,19 @@ class StockListView extends StatelessWidget {
                 final stock = stocks[index];
                 final stockDetails = stockDetailsList.firstWhere(
                       (details) => details.symbol == stock.symbol,
-                  orElse: () => StockDetails(symbol: '', price: 0, change: 0, changePercent: 0),
+                  orElse: () => StockDetails(symbol: '', price: 0, change: 0, changePercent: 0, high: 0, open: 0, low: 0, volume: 0),
                 );
 
                 return InkWell(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (_) => DetailsPage(symbol: stock.symbol,)));
+                    Navigator.push(context, MaterialPageRoute(builder: (_) => DetailsPage(
+                      symbol: stock.symbol,
+                      name: stock.name,
+                      currentPrice: stockDetails.price,
+                      highestPrice: stockDetails.high.toString(),
+                      lowestPrice: stockDetails.low.toString(),
+                      change: stockDetails.changePercent,
+                    )));
                   },
                   child: Container(
                     margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 2.5),

@@ -2,17 +2,14 @@ import 'package:flutter/material.dart';
 
 import '../models/stocks.dart';
 class CustomCardView extends StatelessWidget {
-  const CustomCardView({super.key});
+  final String symbol;
+  final String name;
+  final double price;
+  final double change;
+  const CustomCardView({super.key, required this.symbol, required this.name, required this.price, required this.change});
 
   @override
   Widget build(BuildContext context) {
-    final List<TempStock> stocks = [TempStock(
-      symbol: 'AAPL',
-      companyName: 'Apple Inc.',
-      currentPrice: 150.25,
-      changeAmount: 1.75,
-      changePercentage: 1.18,
-    )];
     return InkWell(
       onTap: () {},
       child: Container(
@@ -41,14 +38,15 @@ class CustomCardView extends StatelessWidget {
                 const SizedBox(width: 20,),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Symbol",
+                      symbol,
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     const SizedBox(height: 4,),
                     Text(
-                      "Name",
+                      name,
                       style: Theme.of(context).textTheme.labelSmall,
                     )
                   ],
@@ -58,15 +56,15 @@ class CustomCardView extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      '\$${stocks[0].currentPrice.toStringAsFixed(2)}',
+                      '\$${price.toStringAsFixed(2)}',
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
                     const SizedBox(height: 4,),
                     Text(
-                      '(${stocks[0].changePercentage >= 0 ? '+' : ''}${stocks[0].changePercentage.toStringAsFixed(2)}%)',
+                      '(${change >= 0 ? '+' : ''}${change.toStringAsFixed(2)}%)',
                       style: TextStyle(
                         fontSize: 15,
-                        color: stocks[0].changePercentage >= 0 ? Colors.green : Colors.red,
+                        color: change >= 0 ? Colors.green : Colors.red,
                       ),
                     ),
                   ],

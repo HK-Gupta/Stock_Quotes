@@ -17,12 +17,20 @@ class StockDetails {
   final double price;
   final double change;
   final double changePercent;
+  final double high;
+  final double low;
+  final double open;
+  final double volume;
 
   StockDetails({
     required this.symbol,
     required this.price,
     required this.change,
     required this.changePercent,
+    required this.high,
+    required this.low,
+    required this.open,
+    required this.volume,
   });
 
   factory StockDetails.fromJson(Map<String, dynamic> json) {
@@ -31,9 +39,14 @@ class StockDetails {
       price: double.parse(json['05. price']),
       change: double.parse(json['09. change']),
       changePercent: double.parse(json['10. change percent'].replaceAll('%', '')),
+      high: double.parse(json['03. high']),
+      low: double.parse(json['04. low']),
+      open: double.parse(json['02. open']),
+      volume: double.parse(json['06. volume']),
     );
   }
 }
+
 
 
 class TempStock {

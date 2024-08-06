@@ -13,7 +13,6 @@ class StockCubit extends Cubit<StockState> {
     try {
       emit(StockLoading());
       final stocks = await stockRepository.fetchStockSymbols(keyword);
-      print(stocks);
       final stockDetailsList = <StockDetails>[];
       for (final stock in stocks) {
         final details = await stockRepository.fetchStockDetails(stock.symbol);
@@ -23,6 +22,16 @@ class StockCubit extends Cubit<StockState> {
       emit(StockLoaded(stocks, stockDetailsList));
     } catch (e) {
       emit(StockError("Failed to fetch stock details"));
+    }
+  }
+
+  Future<void> fetchMonthlyDetails(String symbol) async {
+    try {
+      emit(StockLoading());
+      final monthlyDetails = await stockRepository.fetchMonthlyDetails(symbol);
+      emit(MonthlyDetailsLoaded(monthlyDetails));
+    } catch (e) {
+      emit(StockError("Failed to fetch monthly details"));
     }
   }
 }
