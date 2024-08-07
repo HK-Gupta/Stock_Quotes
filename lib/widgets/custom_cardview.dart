@@ -24,15 +24,21 @@ class CustomCardView extends StatelessWidget {
                 color: Theme.of(context).colorScheme.primaryContainer,
                 borderRadius: BorderRadius.circular(10)
             ),
-            height: 100,
             width: MediaQuery.of(context).size.width,
             child: Row(
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: const Icon(
-                    Icons.person,
-                    size: 60,
+                Container(
+                  padding: const EdgeInsets.all(7),
+                  margin: const EdgeInsets.all(7),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(500),
+                    color: Colors.indigo,
+                  ),
+                  child: CircleAvatar(
+                    child: Text(
+                      symbol[0],
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 20,),
@@ -45,9 +51,13 @@ class CustomCardView extends StatelessWidget {
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     const SizedBox(height: 4,),
-                    Text(
-                      name,
-                      style: Theme.of(context).textTheme.labelSmall,
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width/2.5,
+                      child: Text(
+                        overflow: TextOverflow.ellipsis,
+                        name,
+                        style: Theme.of(context).textTheme.labelSmall,
+                      ),
                     )
                   ],
                 ),

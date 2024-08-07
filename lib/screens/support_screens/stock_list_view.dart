@@ -8,6 +8,7 @@ import '../../models/stocks.dart';
 class StockListView extends StatelessWidget {
   const StockListView({super.key});
 
+
   @override
   Widget build(BuildContext context) {
     // Fetch the stock symbols and details on initialization

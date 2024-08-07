@@ -13,7 +13,6 @@ class StockRepository {
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
       if (data['bestMatches'] != null) {
-        print('Parsed data for fetchStockSymbols: $data');
         return (data['bestMatches'] as List).map((stock) => Stock.fromJson(stock)).toList();
       } else {
         throw Exception('No bestMatches found in response');
@@ -30,7 +29,7 @@ class StockRepository {
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
       if (data['Global Quote'] != null) {
-        print('Parsed data for fetchStockDetails: $data');
+
         return StockDetails.fromJson(data['Global Quote']);
       } else {
         throw Exception('No Global Quote found in response');

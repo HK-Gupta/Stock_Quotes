@@ -9,6 +9,7 @@ import 'package:stock_quote_app/widgets/custom_text_field.dart';
 import 'package:stock_quote_app/widgets/snackbar_message.dart';
 
 
+import '../../models/user_model.dart';
 import '../../services/database_methods.dart';
 import '../../widgets/custom_button.dart';
 
@@ -33,6 +34,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController mobileNoController = TextEditingController();
   DateTime? selectedDOB;
   bool isOver18 = true;
+  bool isLoading = false;
 
   Future<void> selectDateOfBirth(BuildContext context) async {
     final DateTime? pickedDOB = await showDatePicker(
@@ -77,20 +79,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
           password: hashedPassword
       );
 
-      String id = randomAlphaNumeric(10);
-      Map<String, dynamic> userInfo = {
-        'id': id,
-        'name': nameController.text.trim(),
-        'email': email,
-        'password': hashedPassword,
-        'mobile': mobileNoController.text.trim(),
-        'dob': selectedDOB,
-      };
-      await DatabaseMethods().addDetails(userInfo, id);
+      String id = FirebaseAuth.instance.currentUser?.uid ?? 'default_id'; // Ensure valid ID
+      UserModel newUser = UserModel(
+        id: id,
+        name: nameController.text.trim(),
+        email: email,
+        mobile: mobileNoController.text.trim(),
+        image: '',
+        password: hashedPassword,
+        dob: selectedDOB!,
+      );
 
+      await FirebaseFirestore.instance.collection('users').doc(id).set(newUser.toMap());
+      isLoading = false;
+      setState(() {});
       SnackbarMessage.showSuccessSnackBar(context, "Account Created Successfully. Kindly Login!");
       Navigator.push(context, MaterialPageRoute(builder: (_)=>const LoginScreen()));
     } on FirebaseAuthException catch(e) {
+      isLoading = false;
+      setState(() {});
       if(e.code=='weak-password') {
         SnackbarMessage.showErrorSnackBar(context, "Password Provided is Weak");
       }
@@ -293,7 +300,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
 
                   const SizedBox(height: 40,),
-                  CustomButton(
+                  isLoading? const Center(child: CircularProgressIndicator())
+                  :CustomButton(
                     buttonText: "Signup",
                     buttonColor: Theme.of(context).colorScheme.primary,
                     onTap: () {
@@ -304,6 +312,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         );
                       }
                       if(formKey.currentState!.validate()) {
+                        isLoading = true;
+                        setState(() {});
                         registerAccount();
                       }
                     },

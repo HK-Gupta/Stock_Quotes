@@ -17,7 +17,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
+  bool isLoading = false;
   static final formKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -38,9 +38,13 @@ class _LoginScreenState extends State<LoginScreen> {
           email: email,
           password: hashedPassword
       );
+      isLoading = false;
+      setState(() {});
       SnackbarMessage.showSuccessSnackBar(context, "Logged In Successfully!");
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>const BottomNavigation()));
     } on FirebaseAuthException catch(e) {
+      isLoading = false;
+      setState(() {});
       print("Error as: $e");
       if(e.code=='user-not-found') {
         SnackbarMessage.showErrorSnackBar(context, "User Not Found");
@@ -135,11 +139,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                   ),
                   const SizedBox(height: 40,),
-                  CustomButton(
+                  isLoading? Center(child: CircularProgressIndicator(),)
+                  :CustomButton(
                     buttonText: "Login",
                     buttonColor: Theme.of(context).colorScheme.primary,
                     onTap: () {
                       if(formKey.currentState!.validate()) {
+                        isLoading = true;
+                        setState(() {});
                         userLogin();
                       }
                     },

@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,6 +8,7 @@ import 'package:stock_quote_app/widgets/custom_button.dart';
 import 'package:stock_quote_app/widgets/custom_cardview.dart';
 import 'package:stock_quote_app/widgets/custom_divider.dart';
 import 'package:stock_quote_app/widgets/detailed_container.dart';
+import 'package:stock_quote_app/widgets/snackbar_message.dart';
 
 import '../../cubit_implementation/stock_cubit.dart';
 import '../../cubit_implementation/stock_state.dart';
@@ -25,11 +28,34 @@ class DetailsPage extends StatefulWidget {
 }
 
 class _DetailsPageState extends State<DetailsPage> {
+  bool isAdding = false;
   @override
   void initState() {
     super.initState();
     context.read<StockCubit>().fetchMonthlyDetails(widget.symbol);
   }
+
+  void _addToWatchlist() async {
+    final user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      isAdding = true;
+      setState(() {});
+      final watchlistRef = FirebaseFirestore.instance
+          .collection('watchlists')
+          .doc(user.uid);
+      await watchlistRef.set({
+        'symbols': FieldValue.arrayUnion([widget.symbol])
+      }, SetOptions(merge: true));
+
+      SnackbarMessage.showSuccessSnackBar(context, 'Successfully Added to Watchlist');
+    } else {
+      SnackbarMessage.showErrorSnackBar(context, 'Failed to add');
+    }
+    isAdding = false;
+    setState(() {});
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -172,11 +198,16 @@ class _DetailsPageState extends State<DetailsPage> {
                 const SizedBox(width: 10),
                 Expanded(child: CustomButton(buttonText: "Buy", onTap: () {})),
                 const SizedBox(width: 10),
-                Expanded(child: CustomButton(
-                  buttonText: "Add to Watchlist",
-                  onTap: () {},
-                  buttonColor: Colors.orange[400],
-                )),
+                Expanded(
+                  child: isAdding? Center(child: CircularProgressIndicator())
+                  :CustomButton(
+                    buttonText: "Add to Watchlist",
+                    onTap: () {
+                      _addToWatchlist();
+                    },
+                    buttonColor: Colors.orange[400],
+                  )
+                ),
                 const SizedBox(width: 10),
               ],
             ),

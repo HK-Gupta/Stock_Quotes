@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stock_quote_app/screens/support_screens/stock_watch_lists.dart';
 import 'package:stock_quote_app/widgets/custom_app_bar.dart';
 
 import '../../widgets/custom_divider.dart';
@@ -53,7 +54,7 @@ class _WatchlistPageState extends State<WatchlistPage> {
           const SizedBox(height: 10,),
           const CustomDivider(),
           const SizedBox(height: 10,),
-          const StockListView(),
+          const StockWatchLists(),
         ],
       ),
     );

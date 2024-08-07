@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stock_quote_app/screens/bottom_navigation.dart';
 import 'package:stock_quote_app/screens/pages/profile_page.dart';
 
 AppBar CustomAppBar(BuildContext context, String? title, String image) {
@@ -9,7 +10,7 @@ AppBar CustomAppBar(BuildContext context, String? title, String image) {
     leading: InkWell(
       onTap: () {
         if(image.isEmpty) {
-          Navigator.pop(context);
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const BottomNavigation()));;
         }
       },
       child: image.isNotEmpty ?
