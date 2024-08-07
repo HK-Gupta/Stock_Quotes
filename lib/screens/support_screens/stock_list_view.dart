@@ -6,13 +6,14 @@ import '../../cubit_implementation/stock_state.dart';
 import '../../models/stocks.dart';
 
 class StockListView extends StatelessWidget {
-  const StockListView({super.key});
+  final String keyword;
+  const StockListView({super.key, required this.keyword});
 
 
   @override
   Widget build(BuildContext context) {
     // Fetch the stock symbols and details on initialization
-    context.read<StockCubit>().fetchStocks('tencent');
+    context.read<StockCubit>().fetchStocks(keyword);
     final w = MediaQuery.of(context).size.width;
     return BlocBuilder<StockCubit, StockState>(
       builder: (context, state) {
@@ -27,10 +28,11 @@ class StockListView extends StatelessWidget {
               itemCount: stocks.length,
               itemBuilder: (context, index) {
                 final stock = stocks[index];
-                final stockDetails = stockDetailsList.firstWhere(
-                      (details) => details.symbol == stock.symbol,
-                  orElse: () => StockDetails(symbol: '', price: 0, change: 0, changePercent: 0, high: 0, open: 0, low: 0, volume: 0),
-                );
+                // final stockDetails = stockDetailsList.firstWhere(
+                //       (details) => details.symbol == stock.symbol,
+                //   orElse: () => StockDetails(symbol: '', price: 0, change: 0, changePercent: 0, high: 0, open: 0, low: 0, volume: 0),
+                // );
+                final stockDetails = stockDetailsList.first;
 
                 return InkWell(
                   onTap: () {

@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
+
 import '../../models/monthly_details.dart';
 import '../../models/stocks.dart';
 import 'package:http/http.dart' as http;
@@ -62,3 +64,5 @@ class StockRepository {
     }
   }
 }
+
+

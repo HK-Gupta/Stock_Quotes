@@ -63,10 +63,11 @@ class _StockWatchListsState extends State<StockWatchLists> {
                 itemCount: filteredStocks.length,
                 itemBuilder: (context, index) {
                   final stock = filteredStocks[index];
-                  final stockDetails = filteredStockDetails.firstWhere(
-                        (details) => details.symbol == stock.symbol,
-                    orElse: () => StockDetails(symbol: '', price: 0, change: 0, changePercent: 0, high: 0, open: 0, low: 0, volume: 0),
-                  );
+                  // final stockDetails = filteredStockDetails.firstWhere(
+                  //       (details) => details.symbol == stock.symbol,
+                  //   orElse: () => StockDetails(symbol: '', price: 0, change: 0, changePercent: 0, high: 0, open: 0, low: 0, volume: 0),
+                  // );
+                  final stockDetails = stockDetailsList.first;
                   print("Length: ${filteredStocks.length}");
                   return InkWell(
                     onTap: () {

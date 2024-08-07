@@ -39,14 +39,12 @@ class StockCubit extends Cubit<StockState> {
     emit(StockLoading());
 
     try {
-      final stockDetailsList = await Future.wait(
-        symbols.map((symbol) async {
-          final details = await stockRepository.fetchStockDetails(symbol);
-          return details;
-        }),
-      );
-
-      final stocks = await stockRepository.fetchStockSymbols(''); // Modify this to fetch stock symbols or adjust as needed
+      final stockDetailsList = <StockDetails>[];
+      for (final stock in symbols) {
+        final details = await stockRepository.fetchStockDetails(stock);
+        stockDetailsList.add(details);
+      }
+      final stocks = await stockRepository.fetchStockSymbols('tencent');
       emit(StockLoaded(stocks, stockDetailsList));
     } catch (e) {
       emit(StockError("Failed to fetch stock details for symbols: ${e.toString()}"));
@@ -54,4 +52,6 @@ class StockCubit extends Cubit<StockState> {
   }
 
 }
+
+
 

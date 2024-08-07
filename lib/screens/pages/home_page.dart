@@ -17,9 +17,9 @@ class _HomePageState extends State<HomePage> {
   String? selectedCountry;
   TextEditingController searchController = TextEditingController();
   TextEditingController countryController =TextEditingController();
-
   @override
   Widget build(BuildContext context) {
+    searchController.text;
     final w =  MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: CustomAppBar(context, "Home", "pic"),
@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
               child: TextField(
                 controller: searchController,
                 onChanged: (value) {
-                  // initiateSearch(value.toUpperCase());
+                  setState(() {});
                 },
                 style: Theme.of(context).textTheme.bodyMedium,
                 decoration: InputDecoration(
@@ -124,7 +124,10 @@ class _HomePageState extends State<HomePage> {
           ),
           const CustomDivider(),
           const SizedBox(height: 10,),
-          const StockListView(),
+          StockListView(
+            keyword: searchController.text.isNotEmpty? searchController.text
+                : selectedCountry ?? 'tencent',
+          ),
         ],
       ),
     );
